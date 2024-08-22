@@ -12,7 +12,7 @@ BASE = ../..
 INCLUDE = -I$(BASE)/include -I../include
 
 # C preprocessor flags
-CPPFLAGS += $(INCLUDE) -g
+CPPFLAGS += $(INCLUDE) -g -std=c++20
 
 # C++ compiler flags
 CXXFLAGS += $(CPPFLAGS)
