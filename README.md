@@ -1,6 +1,11 @@
 CDSChecker: A Model Checker for C11 and C++11 Atomics
 =====================================================
 
+This is a fork of CDSChecker, a model checker for C11/C++11 which exhaustively explores the behaviors of code under the C/C++ memory model.
+
+See https://plrg.ics.uci.edu/software_page/42-2/
+
+
 CDSChecker is a model checker for C11/C++11 which exhaustively explores the
 behaviors of code under the C/C++ memory model. It uses partial order reduction
 as well as a few other novel techniques to eliminate time spent on redundant
