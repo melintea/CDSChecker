@@ -46,9 +46,11 @@ public:
     callstack(callstack&&)                 = default;
     callstack& operator=(callstack&&)      = default;
 
-    void print(int /*fd*/) const
+    void print(int fd) const
     {
-        model_print("%s", _buf);
+        switch_alloc = 1; 
+        dprintf(fd, "%s", _buf);
+        switch_alloc = 0;
     }
 
 private:
