@@ -8,9 +8,6 @@ include $(BASE)/common.mk
 DIR := litmus
 include $(DIR)/Makefile
 
-LIBBACKTRACE_INCLUDE = -I /home/amelinte/work/libbacktrace/install/include
-LIBBACKTRACE_LIB     = -L /home/amelinte/work/libbacktrace/install/lib -lbacktrace
-
 DEPS := $(join $(addsuffix ., $(dir $(OBJECTS))), $(addsuffix .d, $(notdir $(OBJECTS))))
 
 CPPFLAGS += -I$(BASE) -I$(BASE)/include -fPIC -std=c++20

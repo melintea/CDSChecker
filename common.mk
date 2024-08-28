@@ -14,3 +14,7 @@ CPPFLAGS += -Wall -g -O3 -fno-omit-frame-pointer
 ifeq ($(UNAME), Darwin)
 CPPFLAGS += -D_XOPEN_SOURCE -DMAC
 endif
+
+CDSDIR               := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+LIBBACKTRACE_INCLUDE := -I $(CDSDIR)/libbacktrace/libbacktrace
+LIBBACKTRACE_LIB     := -L $(CDSDIR)/libbacktrace/libbacktrace/.libs -lbacktrace

@@ -12,10 +12,11 @@ The code is forked from [http://plrg.eecs.uci.edu](http://plrg.eecs.uci.edu/git/
 Another similar tool is relacy: [fork1](https://github.com/dvyukov/relacy) or [fork2](https://github.com/ccotter/relacy).
 
 Recipe:
-- fetch [libbacktrace](https://github.com/ianlancetaylor/libbacktrace) && ```./configure ...``` and ```make```
-- point ```common.mk``` to libbacktrace
-- ```make```
-- ```./run.sh test/deadlock.o```
+- ```cd libbacktrace```
+- git clone [libbacktrace](https://github.com/ianlancetaylor/libbacktrace) && ```./configure ...``` and ```make```
+- back to cdschecker
+  - ```make```
+  - ```./run.sh test/deadlock.o```
 
 ```
 $ ./run.sh test/deadlock.o

@@ -11,10 +11,11 @@
 <p>Another similar tool is relacy: <a href="https://github.com/dvyukov/relacy">fork1</a> or <a href="https://github.com/ccotter/relacy">fork2</a>.</p>
 
 <p>Recipe:
-- fetch <a href="https://github.com/ianlancetaylor/libbacktrace">libbacktrace</a> &amp;&amp; <code>./configure ...</code> and <code>make</code>
-- point <code>common.mk</code> to libbacktrace
-- <code>make</code>
-- <code>./run.sh test/deadlock.o</code></p>
+- <code>cd libbacktrace</code>
+- git clone <a href="https://github.com/ianlancetaylor/libbacktrace">libbacktrace</a> &amp;&amp; <code>./configure ...</code> and <code>make</code>
+- back to cdschecker
+  - <code>make</code>
+  - <code>./run.sh test/deadlock.o</code></p>
 
 <p>```
 $ ./run.sh test/deadlock.o
@@ -490,7 +491,7 @@ Bug report: 4 bugs detected
 and we are happy to hear from our users. We are also very interested to know if
 CDSChecker catches bugs in your programs.</p>
 
-<p>Contact Brian Norris at <a href="&#109;&#x61;&#x69;&#108;&#116;&#x6F;:&#98;&#97;&#x6E;o&#x72;&#x72;&#x69;&#115;&#64;&#x75;&#99;&#x69;&#46;&#x65;d&#117;">&#98;&#97;&#x6E;o&#x72;&#x72;&#x69;&#115;&#64;&#x75;&#99;&#x69;&#46;&#x65;d&#117;</a> or Brian Demsky at <a href="m&#97;&#105;&#x6C;&#x74;&#111;:&#98;&#x64;&#101;&#x6D;&#115;&#x6B;&#x79;&#64;u&#x63;&#105;&#46;e&#100;&#x75;">&#98;&#x64;&#101;&#x6D;&#115;&#x6B;&#x79;&#64;u&#x63;&#105;&#46;e&#100;&#x75;</a>.</p>
+<p>Contact Brian Norris at <a href="&#x6D;a&#x69;&#x6C;&#116;&#111;:&#98;&#x61;&#x6E;&#x6F;&#x72;r&#105;&#x73;&#64;&#117;&#99;&#105;&#46;&#x65;&#100;u">&#98;&#x61;&#x6E;&#x6F;&#x72;r&#105;&#x73;&#64;&#117;&#99;&#105;&#46;&#x65;&#100;u</a> or Brian Demsky at <a href="&#x6D;a&#x69;&#108;&#116;&#111;:&#98;&#100;&#x65;m&#115;&#107;&#x79;&#64;&#117;&#99;&#105;&#46;&#101;&#100;&#x75;">&#98;&#100;&#x65;m&#115;&#107;&#x79;&#64;&#117;&#99;&#105;&#46;&#101;&#100;&#x75;</a>.</p>
 
 <h2>Copyright</h2>
 
