@@ -2687,7 +2687,7 @@ ModelAction * ModelExecution::get_uninitialized_action(const ModelAction *curr) 
 	return act;
 }
 
-static void print_list(const action_list_t *list)
+static void print_list(const action_list_t *list, bool details = false)
 {
 	action_list_t::const_iterator it;
 
@@ -2700,7 +2700,7 @@ static void print_list(const action_list_t *list)
 	for (it = list->begin(); it != list->end(); it++) {
 		const ModelAction *act = *it;
 		if (act->get_seq_number() > 0)
-			act->print();
+			act->print(details);
 		hash = hash^(hash<<3)^((*it)->hash());
 	}
 	model_print("HASH %u\n", hash);
@@ -2772,6 +2772,9 @@ void ModelExecution::print_summary() const
 
 	print_list(&action_trace);
 	model_print("\n");
+	if (have_bug_reports()) {
+    	print_list(&action_trace, true);
+	}
 
 	if (!promises.empty()) {
 		model_print("Pending promises:\n");

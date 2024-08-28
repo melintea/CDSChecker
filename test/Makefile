@@ -8,19 +8,22 @@ include $(BASE)/common.mk
 DIR := litmus
 include $(DIR)/Makefile
 
+LIBBACKTRACE_INCLUDE = -I /home/amelinte/work/libbacktrace/install/include
+LIBBACKTRACE_LIB     = -L /home/amelinte/work/libbacktrace/install/lib -lbacktrace
+
 DEPS := $(join $(addsuffix ., $(dir $(OBJECTS))), $(addsuffix .d, $(notdir $(OBJECTS))))
 
-CPPFLAGS += -I$(BASE) -I$(BASE)/include -std=c++20
+CPPFLAGS += -I$(BASE) -I$(BASE)/include -fPIC -std=c++20
 
 all: $(OBJECTS)
 
 -include $(DEPS)
 
 %.o: %.c
-	$(CC) -MMD -MF $(@D)/.$(@F).d -o $@ $< $(CPPFLAGS) -L$(BASE) -l$(LIB_NAME)
+	$(CC) -MMD -MF $(@D)/.$(@F).d -o $@ $< $(CPPFLAGS) $(LIBBACKTRACE_INCLUDE) -L$(BASE) -l$(LIB_NAME) $(LIBBACKTRACE_LIB) -rdynamic
 
 %.o: %.cc
-	$(CXX) -MMD -MF $(@D)/.$(@F).d -o $@ $< $(CPPFLAGS) -L$(BASE) -l$(LIB_NAME)
+	$(CXX) -MMD -MF $(@D)/.$(@F).d -o $@ $< $(CPPFLAGS) $(LIBBACKTRACE_INCLUDE) -L$(BASE) -l$(LIB_NAME) $(LIBBACKTRACE_LIB) -rdynamic
 
 clean::
 	rm -f $(OBJECTS) $(DEPS)
