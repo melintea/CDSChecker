@@ -4,6 +4,84 @@
 
 <p>See https://plrg.ics.uci.edu/software_page/42-2/</p>
 
+<p>This fork sports a bug report with callstack traces as I find the plain bug report hard to make sense of.</p>
+
+<p>The code is forked from <a href="http://plrg.eecs.uci.edu/git/?p=model-checker.git;a=tree">http://plrg.eecs.uci.edu</a> and not from <a href="https://github.com/bdemsky/cdschecker">github</a> as it sems more recent. I do not know the differences yet.</p>
+
+<p>Another similar tool is relacy: <a href="https://github.com/dvyukov/relacy">fork1</a> or <a href="https://github.com/ccotter/relacy">fork2</a>.</p>
+
+<p>Recipe:
+- fetch <a href="https://github.com/ianlancetaylor/libbacktrace">libbacktrace</a> &amp;&amp; <code>./configure ...</code> and <code>make</code>
+- point <code>common.mk</code> to libbacktrace
+- <code>make</code>
+- <code>./run.sh tests/deadlock.o</code></p>
+
+<p>```
+$ ./run.sh test/deadlock.o
+CDSChecker
+Copyright (c) 2013 Regents of the University of California. All rights reserved.
+Distributed under the GPLv2
+Written by Brian Norris and Brian Demsky</p>
+
+<p>Program output from execution 2:
+---- BEGIN PROGRAM OUTPUT ----
+Main thread: creating 2 threads
+---- END PROGRAM OUTPUT   ----</p>
+
+<p>Bug report: 2 bugs detected
+  [BUG] Deadlock detected (thread 3)
+  [BUG] Deadlock detected</p>
+
+<h2>Execution trace 2: DETECTED BUG(S)</h2>
+
+<h2>#    t    Action type     MO       Location         Value               Rf  CV</h2>
+
+<p>1    1    thread start    seq<em>cst  0x729a9ba01800   0xdeadbeef              ( 0,  1)
+2    1    thread create   seq</em>cst  0x729a9bb01ba8   0x729a9bb01b50          ( 0,  2)
+3    2    thread start    seq<em>cst  0x729a9bb01ee8   0xdeadbeef              ( 0,  2,  3)
+4    2    lock            seq</em>cst  0x729a9bb01d68   0xdeadbeef              ( 0,  2,  4)
+5    1    thread create   seq<em>cst  0x729a9bb01bb0   0x729a9bb01b50          ( 0,  5)
+6    3    thread start    seq</em>cst  0x729a9bc028a0   0xdeadbeef              ( 0,  5,  0,  6)
+7    3    lock            seq_cst  0x729a9bb01d88   0xdeadbeef              ( 0,  5,  0,  7)</p>
+
+<h2>HASH 18015818</h2>
+
+<hr />
+
+<h2>#    t    Action type     MO       Location         Value               Rf  CV</h2>
+
+<p>1    1    thread start    seq<em>cst  0x729a9ba01800   0xdeadbeef              ( 0,  1)
+callstack.h:59  cdschecker::callstack::collect()
+callstack.h:40  cdschecker::callstack::callstack()
+action.cc:47  ModelAction::ModelAction(action</em>type, std::memory<em>order, void*, unsigned long, Thread*)
+threads.cc:51  thread</em>startup()
+<em>_start</em>context.S:90  (null)</p>
+
+<p>...</p>
+
+<p>4    2    lock            seq<em>cst  0x729a9bb01d68   0xdeadbeef              ( 0,  2,  4)
+callstack.h:59  cdschecker::callstack::collect()
+callstack.h:40  cdschecker::callstack::callstack()
+action.cc:47  ModelAction::ModelAction(action</em>type, std::memory<em>order, void*, unsigned long, Thread*)
+==========>  mutex.cc:21  std::mutex::lock() &lt;==========
+deadlock.cc:15  a(void*)
+threads.cc:54  thread</em>startup()
+<em>_start</em>context.S:90  (null)</p>
+
+<p>...</p>
+
+<h2>HASH 18015818</h2>
+
+<p><strong><em>*</em></strong> Model-checking complete: <strong><em>*</em></strong>
+Number of complete, bug-free executions: 2
+Number of redundant executions: 0
+Number of buggy executions: 1
+Number of infeasible executions: 0
+Total executions: 3
+```</p>
+
+<h2>Doc</h2>
+
 <p>CDSChecker is a model checker for C11/C++11 which exhaustively explores the
 behaviors of code under the C/C++ memory model. It uses partial order reduction
 as well as a few other novel techniques to eliminate time spent on redundant
@@ -412,7 +490,7 @@ Bug report: 4 bugs detected
 and we are happy to hear from our users. We are also very interested to know if
 CDSChecker catches bugs in your programs.</p>
 
-<p>Contact Brian Norris at <a href="&#109;&#97;&#x69;&#108;t&#111;:&#98;&#97;&#110;&#111;&#114;&#114;&#105;&#115;&#64;&#117;&#99;&#x69;&#x2E;&#101;&#100;&#117;">&#98;&#97;&#110;&#111;&#114;&#114;&#105;&#115;&#64;&#117;&#99;&#x69;&#x2E;&#101;&#100;&#117;</a> or Brian Demsky at <a href="&#x6D;&#97;&#105;l&#116;&#x6F;:b&#100;&#x65;&#x6D;&#x73;&#107;&#121;&#64;&#117;&#99;&#x69;&#46;&#x65;&#100;&#117;">b&#100;&#x65;&#x6D;&#x73;&#107;&#121;&#64;&#117;&#99;&#x69;&#46;&#x65;&#100;&#117;</a>.</p>
+<p>Contact Brian Norris at <a href="&#109;&#x61;&#x69;&#x6C;&#116;&#x6F;:&#x62;&#x61;&#x6E;&#x6F;&#x72;&#x72;&#105;&#115;&#64;&#117;&#x63;i&#46;&#101;&#100;&#x75;">&#x62;&#x61;&#x6E;&#x6F;&#x72;&#x72;&#105;&#115;&#64;&#117;&#x63;i&#46;&#101;&#100;&#x75;</a> or Brian Demsky at <a href="&#109;&#x61;&#105;&#x6C;&#x74;&#111;:&#98;&#100;&#101;&#x6D;&#x73;&#x6B;&#x79;&#64;&#117;&#x63;&#x69;.&#x65;&#x64;&#117;">&#98;&#100;&#101;&#x6D;&#x73;&#x6B;&#x79;&#64;&#117;&#x63;&#x69;.&#x65;&#x64;&#117;</a>.</p>
 
 <h2>Copyright</h2>
 
