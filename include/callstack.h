@@ -81,10 +81,32 @@ private:
         }
     }
 
+    static void syminfo_callback (void *data, uintptr_t pc, const char *symname, uintptr_t symval, uintptr_t symsize) 
+    {
+        callstack* cstk(reinterpret_cast<callstack*>(data));
+        MODEL_ASSERT(cstk);
+
+        int n{0};
+        n = snprintf(cstk->_buf+cstk->_bufUsed, cstk->_BUFSZ-cstk->_bufUsed, 
+                        "%lx %s ??:0\n", (unsigned long)pc, symname ? symname : "???");
+
+        if (n >= 0) {
+            cstk->_bufUsed += n;
+            MODEL_ASSERT(cstk->_bufUsed <= cstk->_BUFSZ);
+        }
+    }
+
     static int full_callback (void *data, uintptr_t pc, const char *pathname, int linenum, const char *function) 
     {
         callstack* cstk(reinterpret_cast<callstack*>(data));
         MODEL_ASSERT(cstk);
+
+#if 0
+        if ( ! function) {
+            backtrace_syminfo(cstk->_btstate, pc, syminfo_callback, error_callback, data);
+            return 0;
+        }
+#endif
 
         const char *filename = rindex(pathname ? pathname : "", '/');
         if (filename) {
