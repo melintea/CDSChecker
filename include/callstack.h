@@ -48,7 +48,7 @@ public:
 
     void print(int /*fd*/) const
     {
-	model_print("%s", _buf);
+        model_print("%s", _buf);
     }
 
 private:
@@ -70,15 +70,15 @@ private:
         int n{0};
         if (errnum == -1) {
             n = snprintf(cstk->_buf+cstk->_bufUsed, cstk->_BUFSZ-cstk->_bufUsed, 
-	                 "If you want backtraces, you have to compile with -g\n");
+                         "If you want backtraces, you have to compile with -g\n");
         } else {
             n = snprintf(cstk->_buf+cstk->_bufUsed, cstk->_BUFSZ-cstk->_bufUsed,
-	                 "Backtrace error %d: %s\n", errnum, (message ? message : ""));
+                        "Backtrace error %d: %s\n", errnum, (message ? message : ""));
         };
-	if (n >= 0) {
-	    cstk->_bufUsed += n;
+        if (n >= 0) {
+            cstk->_bufUsed += n;
             MODEL_ASSERT(cstk->_bufUsed <= cstk->_BUFSZ);
-	}
+        }
     }
 
     static int full_callback (void *data, uintptr_t pc, const char *pathname, int linenum, const char *function) 
@@ -86,26 +86,26 @@ private:
         callstack* cstk(reinterpret_cast<callstack*>(data));
         MODEL_ASSERT(cstk);
 
-        const char *filename = rindex(pathname, '/');
+        const char *filename = rindex(pathname ? pathname : "", '/');
         if (filename) {
             ++filename; 
         } else {
-            filename = pathname;
+            filename = pathname ? pathname : "???";
         }
         
         int   rval{0};
         char* dfunc(abi::__cxa_demangle(function ? function : "", nullptr, nullptr, &rval));
         const char *fname = rval == 0 ? dfunc : function;
-	    
+        
         int n{0};
         n = snprintf(cstk->_buf+cstk->_bufUsed, cstk->_BUFSZ-cstk->_bufUsed,
                      "%s:%d  %s\n", filename, linenum, fname);
 
       if (n >= 0) {
-	  cstk->_bufUsed += n;
+          cstk->_bufUsed += n;
           MODEL_ASSERT(cstk->_bufUsed <= cstk->_BUFSZ);
       }
-	
+    
       return 0;
     }
 
