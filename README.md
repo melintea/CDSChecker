@@ -15,7 +15,7 @@ Recipe:
 - fetch [libbacktrace](https://github.com/ianlancetaylor/libbacktrace) && ```./configure ...``` and ```make```
 - point ```common.mk``` to libbacktrace
 - ```make```
-- ```./run.sh tests/deadlock.o```
+- ```./run.sh test/deadlock.o```
 
 ```
 $ ./run.sh test/deadlock.o
