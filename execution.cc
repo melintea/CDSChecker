@@ -1084,6 +1084,7 @@ bool ModelExecution::initialize_curr_action(ModelAction **curr)
 		if ((*curr)->is_rmwr())
 			newcurr->copy_typeandorder(*curr);
 
+        // This assert is tripped by atomic ops
 		ASSERT((*curr)->get_location() == newcurr->get_location());
 		newcurr->copy_from_new(*curr);
 
