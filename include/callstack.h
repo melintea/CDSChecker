@@ -35,7 +35,6 @@ class callstack
 public:
 
     callstack()
-        : _btstate(backtrace_create_state(nullptr, BACKTRACE_SUPPORTS_THREADS, error_callback, nullptr))
     {
         collect();
     }
@@ -57,6 +56,8 @@ private:
 
     void collect()
     {
+        _btstate = backtrace_create_state(nullptr, BACKTRACE_SUPPORTS_THREADS, error_callback, nullptr);
+        
         // For a good stack avoid local static funcs & skip frames
         backtrace_full(_btstate, 0, full_callback, error_callback, this); 
         if (_bufUsed < _BUFSZ) {
