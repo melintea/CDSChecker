@@ -1084,7 +1084,7 @@ bool ModelExecution::initialize_curr_action(ModelAction **curr)
 		if ((*curr)->is_rmwr())
 			newcurr->copy_typeandorder(*curr);
 
-        // This assert is tripped by atomic ops
+                // This assert is tripped by atomic ops
 		ASSERT((*curr)->get_location() == newcurr->get_location());
 		newcurr->copy_from_new(*curr);
 
@@ -2774,7 +2774,7 @@ void ModelExecution::print_summary() const
 	print_list(&action_trace);
 	model_print("\n");
 	if (have_bug_reports()) {
-    	print_list(&action_trace, true);
+    	    print_list(&action_trace, true);
 	}
 
 	if (!promises.empty()) {

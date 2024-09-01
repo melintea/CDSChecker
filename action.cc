@@ -602,7 +602,7 @@ void ModelAction::print(bool details) const
 	} else
 		model_print("\n");
 
-    if (details) {
+        if (details) {
 	    callstack.print(model_out);
 	}
 }
