@@ -7,7 +7,7 @@ See https://plrg.ics.uci.edu/software_page/42-2/
 
 This fork sports a bug report with callstack traces as I find the plain bug report hard to make sense of.
 
-~~The code is forked from [http://plrg.eecs.uci.edu](http://plrg.eecs.uci.edu/git/?p=model-checker.git;a=tree) and not from [github](https://github.com/bdemsky/cdschecker) as it sems more recent. I do not know the differences yet butthe github version has buggy makefiles.~~
+The code is forked from [http://plrg.eecs.uci.edu](http://plrg.eecs.uci.edu/git/?p=model-checker.git;a=tree) and not from [github](https://github.com/bdemsky/cdschecker) ~~as it sems more recent. I do not know the differences yet but the github version has buggy makefiles.~~
 
 Use the [cdschecker](https://github.com/melintea/cdschecker2) fork and ignore this repo.
 
