@@ -1,9 +1,9 @@
 //
-// Same test as the relacy one. Nothing detected !
+// Same test as the relacy one. Buggy.
 //
 
 #include "common.h"
-#include "librace.h"
+#include "librace2.h"
 
 #include <atomic>
 #include <threads.h>
@@ -12,12 +12,15 @@
 
 
 std::atomic<int> a{0};
-int x = 0; // dependent data
+librace::var<int> x=0, y=1, z=2; // dependent data, check for races
+
+int xx=10, yy=20, zz=30;
+librace::ptr pp(&x); // pp(&xx);
 
 
 void fa(void *obj)
 {
-    x = 1;
+    x = 1; //store_32(&x, 1);
     // bug: use rl::mo_relaxed aka std::memory_order_relaxed
     // fix: use rl::mo_release aka std::memory_order_release
     a.store(1, std::memory_order_relaxed);
@@ -29,7 +32,7 @@ void fb(void *obj)
     // fix: use rl::mo_acquire aka std::memory_order_acquire
     if (1 == a.load(std::memory_order_relaxed))
     {
-        x = 2;
+        x = 2; //store_32(&x, 2);
     }
 }
 
