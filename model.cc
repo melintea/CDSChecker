@@ -337,7 +337,7 @@ bool ModelChecker::next_execution()
 
     execution_number++;
 
-    if (params.maxexecutions != 0 && stats.num_complete >= params.maxexecutions)
+    if (params.maxexecutions != 0 && stats.num_complete >= (int)params.maxexecutions)
         return false;
 
     reset_to_initial_state();
@@ -420,15 +420,20 @@ void user_main_wrapper(void *)
 bool ModelChecker::should_terminate_execution()
 {
     /* Infeasible -> don't take any more steps */
-    if (execution->is_infeasible())
+    if (execution->is_infeasible()) {
+        DEBUG("should_terminate_execution: infeasible\n");
         return true;
-    else if (execution->isfeasibleprefix() && execution->have_bug_reports()) {
+    } else if (execution->isfeasibleprefix() && execution->have_bug_reports()) {
+        DEBUG("should_terminate_execution: have_bug_reports\n");
         execution->set_assert();
         return true;
     }
 
-    if (execution->too_many_steps())
+    if (execution->too_many_steps()) {
+        DEBUG("should_terminate_execution: too_many_steps\n");
         return true;
+    }
+
     return false;
 }
 
@@ -460,7 +465,7 @@ void ModelChecker::do_restart()
 /** @brief Run ModelChecker for the user program */
 void ModelChecker::run()
 {
-    bool has_next;
+    bool has_next{false};
     do {
         thrd_t user_thread;
         Thread *t = new Thread(execution->get_next_id(), &user_thread, &user_main_wrapper, NULL, NULL);
@@ -507,6 +512,7 @@ void ModelChecker::run()
             t->set_pending(NULL);
             t = execution->take_step(curr);
         } while (!should_terminate_execution());
+        model_print("******* Execution %d terminated\n", get_execution_number());
 
         has_next = next_execution();
         if (inspect_plugin != NULL && !has_next) {

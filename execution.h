@@ -116,7 +116,7 @@ public:
 
     action_list_t * get_action_trace() { return &action_trace; }
 
-    CycleGraph * const get_mo_graph() { return mo_graph; }
+    CycleGraph* get_mo_graph() { return mo_graph; }
 
     SNAPSHOTALLOC
 private:
